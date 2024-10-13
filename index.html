@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nedtælling til vi bliver studenter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #333;
+        }
+        #countdown {
+            font-size: 2em;
+            color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vi bliver studenter om</h1>
+    <div id="countdown">Indlæser...</div>
+
+    <script>
+        // Sæt datoen og klokkeslættet for hvornår I bliver studenter
+        const graduationDate = new Date('June 25, 2025 14:00:00').getTime();
+
+        // Opdater nedtællingen hvert sekund
+        const x = setInterval(function() {
+
+            // Find nuværende tidspunkt
+            const now = new Date().getTime();
+
+            // Find forskellen mellem nu og datoen I bliver studenter
+            const distance = graduationDate - now;
+
+            // Beregn tid i år, dage, timer, minutter og sekunder
+            const years = Math.floor(distance / (1000 * 60 * 60 * 24 * 365));
+            const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Vis resultatet
+            document.getElementById("countdown").innerHTML = years + " år " + days + " dage " + hours + " timer " + minutes + " minutter ";
+
+            // Stop nedtællingen, når den rammer 0
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "Vi er blevet studenter!";
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
