@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nedtælling til vi bliver studenter</title>
+    <title>Studenter-Nedtælling</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,16 +23,48 @@
             font-size: 2em;
             color: #ff4500;
         }
+        #graduation-date {
+            font-size: 1.5em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        #depression-button {
+            background-color: red;
+            color: white;
+            font-size: 1.2em;
+            padding: 12px 25px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 12px; /* Afrundede hjørner */
+            transition: background-color 0.3s ease; /* Gør overgangen glat */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Let skygge for dybde */
+        }
+        #depression-button:hover {
+            background-color: darkred; /* Mørkere farve ved hover */
+        }
+        #depression-button:active {
+            background-color: #b30000; /* Endnu mørkere farve ved klik */
+            transform: scale(0.98); /* Lidt mindre når der klikkes */
+        }
     </style>
 </head>
 <body>
 
+    <div id="graduation-date">Nedtælling til d. </div>
     <h1>Vi bliver studenter om</h1>
     <div id="countdown">Indlæser...</div>
+    <button id="depression-button">Depression</button>
 
     <script>
         // Sæt datoen og klokkeslættet for hvornår I bliver studenter
-        const graduationDate = new Date('June 25, 2025 14:00:00').getTime();
+        const graduationDate = new Date('June 20, 2026 14:00:00');
+        let inSecondsMode = false; // Variabel til at spore om sekunder er aktiveret
+        
+        // Vis datoen i formatet d. dd/mm/yyyy
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const formattedDate = graduationDate.toLocaleDateString('da-DK', options);
+        document.getElementById("graduation-date").innerHTML = "Nedtælling til d. " + formattedDate;
 
         // Opdater nedtællingen hvert sekund
         const x = setInterval(function() {
@@ -41,17 +73,22 @@
             const now = new Date().getTime();
 
             // Find forskellen mellem nu og datoen I bliver studenter
-            const distance = graduationDate - now;
+            const distance = graduationDate.getTime() - now;
 
-            // Beregn tid i år, dage, timer, minutter og sekunder
-            const years = Math.floor(distance / (1000 * 60 * 60 * 24 * 365));
-            const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            if (inSecondsMode) {
+                // Hvis sekunder-tilstand er aktiv, vis kun sekunder
+                const seconds = Math.floor(distance / 1000);
+                document.getElementById("countdown").innerHTML = "≈ " + seconds + " sekunder";
+            } else {
+                // Beregn tid i dage, timer, minutter og sekunder
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Vis resultatet
-            document.getElementById("countdown").innerHTML = years + " år " + days + " dage " + hours + " timer " + minutes + " minutter ";
+                // Vis resultatet med ≈ foran
+                document.getElementById("countdown").innerHTML = "≈ " + days + " dage " + hours + " timer " + minutes + " minutter ";
+            }
 
             // Stop nedtællingen, når den rammer 0
             if (distance < 0) {
@@ -59,6 +96,11 @@
                 document.getElementById("countdown").innerHTML = "Vi er blevet studenter!";
             }
         }, 1000);
+
+        // Håndter klik på knappen
+        document.getElementById("depression-button").addEventListener("click", function() {
+            inSecondsMode = true; // Skift til sekunder-tilstand
+        });
     </script>
 
 </body>
