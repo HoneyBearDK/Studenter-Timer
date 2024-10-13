@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studenter-Nedtælling</title>
+    <title>Nedtælling til vi bliver studenter</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,6 +14,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f8ff;
+            position: relative; /* For at kunne placere billedet i forhold til body */
         }
         h1 {
             font-size: 2.5em;
@@ -47,6 +48,13 @@
             background-color: #b30000; /* Endnu mørkere farve ved klik */
             transform: scale(0.98); /* Lidt mindre når der klikkes */
         }
+        #depression-image {
+            position: absolute; /* Gør billedet positioneret i forhold til body */
+            top: 600px; /* Placer billedet 20px fra toppen */
+            left: 50px; /* Placer billedet 20px fra venstre */
+            display: none; /* Skjult som standard */
+            width: 500px; /* Bredde på billedet, kan justeres */
+        }
     </style>
 </head>
 <body>
@@ -55,6 +63,7 @@
     <h1>Vi bliver studenter om</h1>
     <div id="countdown">Indlæser...</div>
     <button id="depression-button">Depression</button>
+    <img id="depression-image" src="hue.png" alt="Depression Image">
 
     <script>
         // Sæt datoen og klokkeslættet for hvornår I bliver studenter
@@ -100,6 +109,7 @@
         // Håndter klik på knappen
         document.getElementById("depression-button").addEventListener("click", function() {
             inSecondsMode = true; // Skift til sekunder-tilstand
+            document.getElementById("depression-image").style.display = "block"; // Vis billedet
         });
     </script>
 
